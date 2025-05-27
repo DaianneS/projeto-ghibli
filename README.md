@@ -39,15 +39,25 @@ O projeto está disponível e funcionando no seguinte link:
 
 ## 🏗️ Estrutura do Projeto
 projeto-ghibli/
+
 │
+
 ├── app.py # Código principal da aplicação
+
 ├── requirements.txt # Dependências do projeto
+
 ├── README.md # Este arquivo
+
 ├── .streamlit/ # Configurações de tema do Streamlit
+
 │ └── config.toml
+
 ├── assets/ # Imagens usadas no projeto
+
 │ ├── chihiro.png
+
 │ └── logo.png
+
 └── grafico.png # Arquivo gerado da visualização gráfica
 
 --
