@@ -88,6 +88,7 @@ class Lista:
 
         return grafico
 
+
     def limpar(self):
         self.cabeca = None
 
@@ -251,8 +252,7 @@ with col_centro:
     if st.button("Gerar Gráfico da Lista"):
         if lista.cabeca is not None:
             grafico = lista.gerar_grafico()
-            grafico.render('grafico', format='png', cleanup=True)
-            st.image('grafico.png')
+            st.graphviz_chart(grafico.source)
         else:
             st.warning("A lista está vazia. Adicione filmes para gerar o gráfico.")
 
