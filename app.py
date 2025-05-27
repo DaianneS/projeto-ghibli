@@ -103,7 +103,7 @@ def get_base64(file):
     return base64.b64encode(data).decode()
 
 
-# Aplicação de background com as imagens
+# Adiciona background e logo como parte do CSS
 def add_background(img_fundo, img_logo):
     img_fundo_base64 = get_base64(img_fundo)
     img_logo_base64 = get_base64(img_logo)
@@ -111,8 +111,11 @@ def add_background(img_fundo, img_logo):
         f"""
         <style>
         .stApp {{
-            background-image: url("data:image/png;base64,{img_fundo_base64}"), url("data:image/png;base64,{img_logo_base64}");
-            background-position: bottom right, top left;
+            background-color: #1b2e2d;
+            background-image: 
+                url("data:image/png;base64,{img_fundo_base64}"),
+                url("data:image/png;base64,{img_logo_base64}");
+            background-position: bottom right, top 150px left 10px;
             background-repeat: no-repeat, no-repeat;
             background-size: 30vw, 120px;
             background-attachment: scroll, scroll;
@@ -121,12 +124,11 @@ def add_background(img_fundo, img_logo):
         @media (max-width: 768px) {{
             .stApp {{
                 background-size: 40vw, 80px;
-                background-position: bottom right, top left;
+                background-position: bottom right, top 150px left 10px;
             }}
         }}
 
         body {{
-            background-color: #1b2e2d;
             color: white;
         }}
 
