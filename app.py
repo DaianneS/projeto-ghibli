@@ -92,37 +92,8 @@ class Lista:
         self.cabeca = None
 
 
-# Configuração de tema e CSS customizado
+# Configuração de tema
 st.set_page_config(page_title="Studio Ghibli - Lista Encadeada", page_icon="🎥", layout="wide")
-
-st.markdown(
-    """
-    <style>
-    body {
-        background-color: #1b2e2d;
-        color: white;
-    }
-    .stApp {
-        background-color: #1b2e2d;
-    }
-    .stButton>button {
-        background-color: #f28482;
-        color: white;
-        border-radius: 8px;
-        height: 3em;
-        font-size: 16px;
-    }
-    .stButton>button:hover {
-        background-color: #f2a29e;
-        color: black;
-    }
-    hr {
-        border: 1px solid #f28482;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 
 
 # Função para converter imagem em base64
@@ -132,73 +103,57 @@ def get_base64(file):
     return base64.b64encode(data).decode()
 
 
-# Renderização do logo no canto superior esquerdo (ajustado para responsividade)
-def render_logo(file):
-    img_base64 = get_base64(file)
+# Aplicação de background com as imagens
+def add_background(img_fundo, img_logo):
+    img_fundo_base64 = get_base64(img_fundo)
+    img_logo_base64 = get_base64(img_logo)
     st.markdown(
         f"""
         <style>
+        .stApp {{
+            background-image: url("data:image/png;base64,{img_fundo_base64}"), url("data:image/png;base64,{img_logo_base64}");
+            background-position: bottom right, top left;
+            background-repeat: no-repeat, no-repeat;
+            background-size: 30vw, 120px;
+            background-attachment: scroll, scroll;
+        }}
+
         @media (max-width: 768px) {{
-            .logo {{
-                top: 80px;
-                left: 10px;
-                width: 80px;
+            .stApp {{
+                background-size: 40vw, 80px;
+                background-position: bottom right, top left;
             }}
         }}
-        @media (min-width: 769px) {{
-            .logo {{
-                top: 70px;
-                left: 10px;
-                width: 120px;
-            }}
+
+        body {{
+            background-color: #1b2e2d;
+            color: white;
+        }}
+
+        .stButton>button {{
+            background-color: #f28482;
+            color: white;
+            border-radius: 8px;
+            height: 3em;
+            font-size: 16px;
+        }}
+
+        .stButton>button:hover {{
+            background-color: #f2a29e;
+            color: black;
+        }}
+
+        hr {{
+            border: 1px solid #f28482;
         }}
         </style>
-
-        <div class="logo" style="
-            position: fixed;
-            z-index: 1;
-        ">
-            <img src='data:image/png;base64,{img_base64}' style="width: 100%; height: auto;">
-        </div>
         """,
         unsafe_allow_html=True
     )
 
 
-# Renderização da imagem no canto inferior direito (ajustada para responsividade)
-def render_image(file):
-    img_base64 = get_base64(file)
-    st.markdown(
-        f"""
-        <style>
-        @media (max-width: 768px) {{
-            .background-image {{
-                bottom: 0;
-                right: 0;
-                width: 45vw;
-                min-width: 150px;
-            }}
-        }}
-        @media (min-width: 769px) {{
-            .background-image {{
-                bottom: 0;
-                right: 0;
-                width: 35vw;
-                min-width: 250px;
-                max-width: 500px;
-            }}
-        }}
-        </style>
-
-        <div class="background-image" style="
-            position: fixed;
-            z-index: 0;
-        ">
-            <img src='data:image/png;base64,{img_base64}' style="width: 100%; height: auto;">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+# Adiciona o background
+add_background('assets/chihiro.png', 'assets/logo.png')
 
 
 # Inicialização da lista e controle de sessão
@@ -308,8 +263,3 @@ with col_centro:
             st.dataframe(df)
         else:
             st.warning("A lista está vazia. Adicione filmes para gerar a tabela.")
-
-
-# Renderização das imagens fixas e responsivas
-render_image('assets/chihiro.png')
-render_logo('assets/logo.png')
