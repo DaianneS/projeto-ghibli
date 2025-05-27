@@ -125,57 +125,76 @@ st.markdown(
 )
 
 
-# Função para converter imagem em base64 e exibir na interface
+# Função para converter imagem em base64
 def get_base64(file):
     with open(file, "rb") as f:
         data = f.read()
     return base64.b64encode(data).decode()
 
 
-# Renderização da imagem no canto inferior direito
-def render_image(file):
+# Renderização do logo no canto superior esquerdo (ajustado para responsividade)
+def render_logo(file):
     img_base64 = get_base64(file)
     st.markdown(
         f"""
-        <div style="
+        <style>
+        @media (max-width: 768px) {{
+            .logo {{
+                top: 80px;
+                left: 10px;
+                width: 80px;
+            }}
+        }}
+        @media (min-width: 769px) {{
+            .logo {{
+                top: 70px;
+                left: 10px;
+                width: 120px;
+            }}
+        }}
+        </style>
+
+        <div class="logo" style="
             position: fixed;
-            bottom: 0;
-            right: 0;
-            z-index: 0;
-            margin: 0;
-            padding: 0;
+            z-index: 1;
         ">
-            <img src='data:image/png;base64,{img_base64}' 
-                 style='
-                    width: 35vw;
-                    min-width: 250px;
-                    max-width: 500px;
-                    height: auto;
-                    margin: 0;
-                    padding: 0;
-                '>
+            <img src='data:image/png;base64,{img_base64}' style="width: 100%; height: auto;">
         </div>
         """,
         unsafe_allow_html=True
     )
 
 
-# Renderização do logo no canto superior esquerdo, ajustado para baixo
-def render_logo(file):
+# Renderização da imagem no canto inferior direito (ajustada para responsividade)
+def render_image(file):
     img_base64 = get_base64(file)
     st.markdown(
         f"""
-        <div style="
+        <style>
+        @media (max-width: 768px) {{
+            .background-image {{
+                bottom: 0;
+                right: 0;
+                width: 45vw;
+                min-width: 150px;
+            }}
+        }}
+        @media (min-width: 769px) {{
+            .background-image {{
+                bottom: 0;
+                right: 0;
+                width: 35vw;
+                min-width: 250px;
+                max-width: 500px;
+            }}
+        }}
+        </style>
+
+        <div class="background-image" style="
             position: fixed;
-            top: 70px;
-            left: 10px;
-            z-index: 100;
+            z-index: 0;
         ">
-            <img src='data:image/png;base64,{img_base64}' 
-                 style='
-                    width: 120px;
-                    height: auto;
-                '>
+            <img src='data:image/png;base64,{img_base64}' style="width: 100%; height: auto;">
         </div>
         """,
         unsafe_allow_html=True
@@ -291,6 +310,6 @@ with col_centro:
             st.warning("A lista está vazia. Adicione filmes para gerar a tabela.")
 
 
-# Renderização da imagem no canto inferior direito e do logo no topo esquerdo (ajustado)
+# Renderização das imagens fixas e responsivas
 render_image('assets/chihiro.png')
 render_logo('assets/logo.png')
