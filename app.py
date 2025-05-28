@@ -249,25 +249,31 @@ with col_centro:
     else:
         st.info("Nenhum filme na lista no momento. Adicione filmes para começar.")
 
-    if st.button("🎬 Gerar Gráfico da Lista"):
-        if lista.cabeca is not None:
-            grafico = lista.gerar_grafico()
-            st.graphviz_chart(grafico.source)
-        else:
-            st.warning("A lista está vazia. Adicione filmes para gerar o gráfico.")
+    st.subheader("Visualizações")
 
-    if st.button("🍅 Gerar Gráfico de Scores"):
-        if dados_atual:
-            df_scores = pd.DataFrame(dados_atual)
-            df_scores['rt_score'] = pd.to_numeric(df_scores['rt_score'], errors='coerce')
-            df_scores = df_scores.sort_values(by='rt_score', ascending=False)
+    col_grafico_lista, col_grafico_scores = st.columns([1, 1])
 
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.barh(df_scores['Título'], df_scores['Score'], color='#f28482')
-            ax.set_xlabel('Pontuação (Rotten Tomatoes)')
-            ax.set_ylabel('Filmes')
-            ax.set_title('Pontuação dos Filmes no Rotten Tomatoes')
-            ax.invert_yaxis()
-            st.pyplot(fig)
-        else:
-            st.warning("A lista está vazia. Adicione filmes para gerar o gráfico de scores.")
+    with col_grafico_lista:
+        if st.button("🎬 Gerar Gráfico da Lista", use_container_width=True):
+            if lista.cabeca is not None:
+                grafico = lista.gerar_grafico()
+                st.graphviz_chart(grafico.source)
+            else:
+                st.warning("A lista está vazia. Adicione filmes para gerar o gráfico.")
+
+    with col_grafico_scores:
+        if st.button("🍅 Gerar Gráfico de Scores", use_container_width=True):
+            if dados_atual:
+                df_scores = pd.DataFrame(dados_atual)
+                df_scores['Score'] = pd.to_numeric(df_scores['Score'], errors='coerce')
+                df_scores = df_scores.sort_values(by='Score', ascending=False)
+
+                fig, ax = plt.subplots(figsize=(10, 6))
+                ax.barh(df_scores['Título'], df_scores['Score'], color='#f28482')
+                ax.set_xlabel('Pontuação (Rotten Tomatoes)')
+                ax.set_ylabel('Filmes')
+                ax.set_title('Pontuação dos Filmes no Rotten Tomatoes')
+                ax.invert_yaxis()
+                st.pyplot(fig)
+            else:
+                st.warning("A lista está vazia. Adicione filmes para gerar o gráfico de scores.")
