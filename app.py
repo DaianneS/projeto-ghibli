@@ -255,13 +255,3 @@ with col_centro:
             st.graphviz_chart(grafico.source)
         else:
             st.warning("A lista está vazia. Adicione filmes para gerar o gráfico.")
-
-    if st.button("Gerar Tabela"):
-        dados_lista = lista.exibir()
-        if dados_lista:
-            df = pd.DataFrame(dados_lista)
-            df = df[['title', 'director', 'release_date', 'rt_score']]
-            df.columns = ['Título', 'Diretor', 'Ano', 'Score']
-            st.dataframe(df)
-        else:
-            st.warning("A lista está vazia. Adicione filmes para gerar a tabela.")
