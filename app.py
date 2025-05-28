@@ -265,11 +265,11 @@ with col_centro:
         if st.button("🍅 Gerar Gráfico de Scores", use_container_width=True):
             if dados_atual:
                 df_scores = pd.DataFrame(dados_atual)
-                df_scores['Score'] = pd.to_numeric(df_scores['Score'], errors='coerce')
-                df_scores = df_scores.sort_values(by='Score', ascending=False)
+                df_scores['rt_score'] = pd.to_numeric(df_scores['rt_score'], errors='coerce')
+                df_scores = df_scores.sort_values(by='rt_score', ascending=False)
 
                 fig, ax = plt.subplots(figsize=(10, 6))
-                ax.barh(df_scores['Título'], df_scores['Score'], color='#f28482')
+                ax.barh(df_scores['title'], df_scores['rt_score'], color='#f28482')
                 ax.set_xlabel('Pontuação (Rotten Tomatoes)')
                 ax.set_ylabel('Filmes')
                 ax.set_title('Pontuação dos Filmes no Rotten Tomatoes')
