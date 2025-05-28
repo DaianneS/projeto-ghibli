@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 from graphviz import Digraph
 import base64
+import matplotlib.pyplot as plt
 
 
 # Coleta de dados da API do Studio Ghibli
@@ -87,7 +88,6 @@ class Lista:
             contador += 1
 
         return grafico
-
 
     def limpar(self):
         self.cabeca = None
@@ -249,9 +249,25 @@ with col_centro:
     else:
         st.info("Nenhum filme na lista no momento. Adicione filmes para começar.")
 
-    if st.button("Gerar Gráfico da Lista"):
+    if st.button("🎬 Gerar Gráfico da Lista"):
         if lista.cabeca is not None:
             grafico = lista.gerar_grafico()
             st.graphviz_chart(grafico.source)
         else:
             st.warning("A lista está vazia. Adicione filmes para gerar o gráfico.")
+
+    if st.button("🍅 Gerar Gráfico de Scores"):
+        if dados_atual:
+            df_scores = pd.DataFrame(dados_atual)
+            df_scores['rt_score'] = pd.to_numeric(df_scores['rt_score'], errors='coerce')
+            df_scores = df_scores.sort_values(by='rt_score', ascending=False)
+
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.barh(df_scores['Título'], df_scores['Score'], color='#f28482')
+            ax.set_xlabel('Pontuação (Rotten Tomatoes)')
+            ax.set_ylabel('Filmes')
+            ax.set_title('Pontuação dos Filmes no Rotten Tomatoes')
+            ax.invert_yaxis()
+            st.pyplot(fig)
+        else:
+            st.warning("A lista está vazia. Adicione filmes para gerar o gráfico de scores.")
